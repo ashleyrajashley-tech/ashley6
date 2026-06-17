@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Numbers Validation</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            text-align:center;
+            margin-top:50px;
+        }
+
+        .box{
+            width:300px;
+            margin:auto;
+            padding:20px;
+            border:1px solid #ccc;
+            border-radius:10px;
+        }
+
+        input{
+            width:90%;
+            padding:8px;
+            margin:8px 0;
+        }
+
+        .error{
+            color:red;
+            font-size:14px;
+        }
+
+        button{
+            padding:8px 15px;
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Add 5 Numbers</h2>
+
+    <input type="number" id="n1" placeholder="Enter First Number"><br>
+    <input type="number" id="n2" placeholder="Enter Second Number"><br>
+    <input type="number" id="n3" placeholder="Enter Third Number"><br>
+    <input type="number" id="n4" placeholder="Enter Fourth Number"><br>
+    <input type="number" id="n5" placeholder="Enter Fifth Number"><br>
+
+    <div class="error" id="msg"></div>
+
+    <button onclick="addNumbers()">Add</button>
+
+    <h4 id="result"></h4>
+</div>
+
+<script>
+
+// Move cursor on Enter
+function moveNext(current, next){
+    current.addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+            if(current.value.trim() === ""){
+                document.getElementById("msg").innerHTML =
+                "Please enter a value";
+                e.preventDefault();
+            }
+            else{
+                document.getElementById("msg").innerHTML = "";
+                next.focus();
+                e.preventDefault();
+            }
+        }
+    });
+}
+
+moveNext(n1, n2);
+moveNext(n2, n3);
+moveNext(n3, n4);
+moveNext(n4, n5);
+
+// Last box → calculate
+document.getElementById("n5").addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        addNumbers();
+        e.preventDefault();
+    }
+});
+
+function addNumbers(){
+
+    let n1 = document.getElementById("n1").value;
+    let n2 = document.getElementById("n2").value;
+    let n3 = document.getElementById("n3").value;
+    let n4 = document.getElementById("n4").value;
+    let n5 = document.getElementById("n5").value;
+
+    if(n1==="" || n2==="" || n3==="" || n4==="" || n5===""){
+        document.getElementById("msg").innerHTML =
+        "All fields are required";
+        return;
+    }
+
+    let sum = Number(n1) + Number(n2) + Number(n3) + Number(n4) + Number(n5);
+
+    // If sum > 100 → reset all to 0
+    if(sum > 100){
+        document.getElementById("msg").innerHTML =
+        "Sum is greater than 100 → Resetting to 0";
+
+        document.getElementById("n1").value = 0;
+        document.getElementById("n2").value = 0;
+        document.getElementById("n3").value = 0;
+        document.getElementById("n4").value = 0;
+        document.getElementById("n5").value = 0;
+
+        document.getElementById("result").innerHTML = "";
+        return;
+    }
+
+    document.getElementById("msg").innerHTML = "";
+    document.getElementById("result").innerHTML =
+    "Result = " + sum;
+}
+</script>
+
+</body>
+</html>
